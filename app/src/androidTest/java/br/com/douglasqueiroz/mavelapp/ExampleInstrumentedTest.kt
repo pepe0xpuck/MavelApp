@@ -2,11 +2,17 @@ package br.com.douglasqueiroz.mavelapp
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
+import br.com.douglasqueiroz.mavelapp.model.Character
+import br.com.douglasqueiroz.mavelapp.request.impl.CharacterRequestImpl
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import rx.Subscriber
+import rx.observers.TestSubscriber
+import rx.plugins.RxJavaPlugins
+import rx.schedulers.TestScheduler
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -15,10 +21,17 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+
+    private val requester by lazy { CharacterRequestImpl() }
+
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("br.com.douglasqueiroz.mavelapp", appContext.packageName)
+    fun getCharacter() {
+
+        val observable = requester.getCharacters()
+        val testSubscriber = TestSubscriber<List<Character>>()
+        observable.subscribe(testSubscriber)
+
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertCompleted()
     }
 }

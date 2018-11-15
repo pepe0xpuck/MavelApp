@@ -15,24 +15,23 @@ abstract class ViewBase(var layoutId: Int): AppCompatActivity(), ContractBase.Vi
     }
 
     override fun callView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showErrorMessage(msgStringId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showMessage(msgStringId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-
+        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun hideProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     protected abstract fun getPresenter(): ContractBase.Presenter

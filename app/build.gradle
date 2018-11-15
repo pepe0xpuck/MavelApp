@@ -13,6 +13,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "SERVER_URL", '"https://gateway.marvel.com:443/"'
+        buildConfigField("String", "PUBLIC_KEY", "\"${marvelPublicKey}\"")
+        buildConfigField("String", "PRIVATE_KEY", "\"${marvelPrivateKey}\"")
     }
     buildTypes {
         release {
