@@ -1,15 +1,14 @@
 package br.com.douglasqueiroz.mavelapp.view.home
 
+import br.com.douglasqueiroz.mavelapp.R
 import br.com.douglasqueiroz.mavelapp.model.Character
 import br.com.douglasqueiroz.mavelapp.request.CharacterRequest
-import br.com.douglasqueiroz.mavelapp.request.impl.CharacterRequestImpl
 import rx.Subscriber
 import rx.schedulers.Schedulers
 
-class HomePresenter(val mView: HomeContract.View): HomeContract.Presenter {
+class HomePresenter(private val mView: HomeContract.View, private val mCharacterRequest: CharacterRequest): HomeContract.Presenter {
 
-    private val mCharacterRequest: CharacterRequest by lazy { CharacterRequestImpl() }
-    private lateinit var mCharacters: List<Character>
+    private var mCharacters: List<Character>? = null
 
     override fun loadData() {
 
@@ -17,18 +16,36 @@ class HomePresenter(val mView: HomeContract.View): HomeContract.Presenter {
             .observeOn(Schedulers.io())
             .subscribe(object : Subscriber<List<Character>>() {
 
+                override fun onStart() {
+                    super.onStart()
+
+                    mView.showProgress()
+                }
+
                 override fun onCompleted() {
                     mView.hideProgress()
-                    mView.showList(mCharacters)
+
+                    mCharacters?.let {
+
+                        if (it.isEmpty()) {
+
+                            mView.showNoDataView()
+                        }else {
+
+                            mView.showList(it)
+                        }
+                    }
                 }
 
                 override fun onError(e: Throwable) {
+
                     mView.hideProgress()
-                    // TODO: Create a default connection error message
-                    mView.showErrorMessge("")
+
+                    mView.showErrorMessage(R.string.default_error_msg)
                 }
 
                 override fun onNext(characters: List<Character>) {
+
                     mCharacters = characters
                 }
             })

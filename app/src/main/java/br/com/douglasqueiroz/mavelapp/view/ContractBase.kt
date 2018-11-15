@@ -6,9 +6,9 @@ interface ContractBase {
 
         fun callView()
 
-        fun showErrorMessge(message: String)
+        fun showErrorMessage(msgStringId: Int)
 
-        fun showMessge(message: String)
+        fun showMessage(msgStringId: Int)
 
         fun showProgress()
 

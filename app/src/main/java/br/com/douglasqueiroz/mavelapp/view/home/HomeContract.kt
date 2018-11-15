@@ -8,6 +8,8 @@ interface HomeContract {
     interface View: ContractBase.View {
 
         fun showList(caracters: List<Character>)
+
+        fun showNoDataView()
     }
 
     interface Presenter: ContractBase.Presenter {

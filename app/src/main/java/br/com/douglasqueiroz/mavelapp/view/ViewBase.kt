@@ -18,12 +18,13 @@ abstract class ViewBase(var layoutId: Int): AppCompatActivity(), ContractBase.Vi
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showErrorMessge(message: String) {
+    override fun showErrorMessage(msgStringId: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showMessge(message: String) {
+    override fun showMessage(msgStringId: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun showProgress() {
