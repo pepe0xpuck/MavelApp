@@ -15,7 +15,8 @@ class HomePresenter(private val mView: HomeContract.View, private val mCharacter
     override fun loadData() {
 
         mCharacterRequest.getCharacters()
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Subscriber<Wrapper<List<Character>>>() {
 
                 override fun onStart() {
@@ -51,6 +52,8 @@ class HomePresenter(private val mView: HomeContract.View, private val mCharacter
                     mCharacters = wrapper.data?.results
                 }
             })
+
+//        mView.showList(arrayListOf(Character(1, "Teste", "teste")))
     }
 
     override fun refreshList() {

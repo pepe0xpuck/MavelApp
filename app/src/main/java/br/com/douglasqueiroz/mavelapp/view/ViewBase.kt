@@ -1,15 +1,12 @@
 package br.com.douglasqueiroz.mavelapp.view
 
-import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 
-abstract class ViewBase(var layoutId: Int): AppCompatActivity(), ContractBase.View {
+abstract class ViewBase: AppCompatActivity(), ContractBase.View {
 
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(layoutId)
+    override fun onStart() {
+        super.onStart()
 
         getPresenter().loadData()
     }
