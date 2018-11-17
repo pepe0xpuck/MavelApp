@@ -13,8 +13,24 @@ class HomePresenter(private val mView: HomeContract.View, private val mCharacter
     private var mCharacters: List<Character>? = null
 
     override fun loadData() {
+        loadCharacters()
+    }
 
-        mCharacterRequest.getCharacters()
+    override fun searchCharacter(query: String?) {
+        loadCharacters(query)
+    }
+
+    override fun refreshList() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onCharacterListItemClick(index: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun loadCharacters(query: String? = null) {
+
+        mCharacterRequest.getCharacters(query)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Subscriber<Wrapper<List<Character>>>() {
@@ -52,15 +68,5 @@ class HomePresenter(private val mView: HomeContract.View, private val mCharacter
                     mCharacters = wrapper.data?.results
                 }
             })
-
-//        mView.showList(arrayListOf(Character(1, "Teste", "teste")))
-    }
-
-    override fun refreshList() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onCharacterListItemClick(index: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

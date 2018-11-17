@@ -11,7 +11,7 @@ import rx.Observable
 
 class CharacterRequestImpl: CharacterRequest {
 
-    override fun getCharacters(): Observable<Wrapper<List<Character>>> {
+    override fun getCharacters(query: String?): Observable<Wrapper<List<Character>>> {
 
         val timeStamp = System.currentTimeMillis()
 
@@ -19,6 +19,7 @@ class CharacterRequestImpl: CharacterRequest {
             .create(MavelAppApi::class.java)
             .getCharacters(BuildConfig.PUBLIC_KEY,
                             HashHelper.generateHash(timeStamp),
-                            timeStamp)
+                            timeStamp,
+                            query)
     }
 }
