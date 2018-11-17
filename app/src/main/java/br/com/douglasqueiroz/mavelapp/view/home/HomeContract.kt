@@ -7,7 +7,7 @@ interface HomeContract {
 
     interface View: ContractBase.View {
 
-        fun showList(caracters: List<Character>)
+        fun showList(characters: List<Character>)
 
         fun showNoDataView()
     }
@@ -15,6 +15,8 @@ interface HomeContract {
     interface Presenter: ContractBase.Presenter {
 
         fun refreshList()
+
+        fun searchCharacter(query: String?)
 
         fun onCharacterListItemClick(index: Int)
     }

@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import br.com.douglasqueiroz.mavelapp.R
 import br.com.douglasqueiroz.mavelapp.model.Character
+import com.squareup.picasso.Picasso
 
 class CharacterAdapter (private val list: List<Character>) : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
 
@@ -34,6 +35,10 @@ class CharacterAdapter (private val list: List<Character>) : RecyclerView.Adapte
         fun bind(character: Character) {
 
             characterNameTextView.text = character.name
+
+            Picasso.get()
+                .load("${character.thumbnail.path}.${character.thumbnail.extension}")
+                .into(characterImageView)
         }
     }
 
