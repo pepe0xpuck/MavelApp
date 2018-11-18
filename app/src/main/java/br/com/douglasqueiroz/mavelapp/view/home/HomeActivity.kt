@@ -47,7 +47,8 @@ class HomeActivity : ViewBase(), HomeContract.View, SearchView.OnQueryTextListen
                 }
 
                 override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                    mSearchQuery = ""
+                    mPresenter.searchCharacter(null)
+
                     return true
                 }
             })
@@ -83,15 +84,12 @@ class HomeActivity : ViewBase(), HomeContract.View, SearchView.OnQueryTextListen
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        return false
+        mPresenter.searchCharacter(query)
+        return true
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        mSearchQuery = newText!!
-        if (!TextUtils.isEmpty(mSearchQuery)) {
-            mPresenter.searchCharacter(mSearchQuery)
-            return true
-        }
+
         return false
     }
 
