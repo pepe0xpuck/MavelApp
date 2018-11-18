@@ -1,6 +1,7 @@
 package br.com.douglasqueiroz.mavelapp.view.characterDetails
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import br.com.douglasqueiroz.mavelapp.R
@@ -13,7 +14,7 @@ import com.squareup.picasso.Picasso
 class CharacterDetailsActivity : ViewBase(), CharacterDetailsContract.View {
 
     companion object {
-        val CHARACTER_BUNDLE_KEY = "character_bundle_key"
+        const val CHARACTER_BUNDLE_KEY = "character_bundle_key"
     }
 
     private val presenter: CharacterDetailsContract.Presenter by lazy { CharacterDetailsPresenter(this, this) }
@@ -24,6 +25,8 @@ class CharacterDetailsActivity : ViewBase(), CharacterDetailsContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_details)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun getPresenter(): ContractBase.Presenter {
@@ -38,5 +41,17 @@ class CharacterDetailsActivity : ViewBase(), CharacterDetailsContract.View {
             .get()
             .load(character.thumbnail.getFullPath())
             .into(characterImageView)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        item?.let {
+
+            when(it.itemId) {
+                android.R.id.home -> { onBackPressed() }
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
