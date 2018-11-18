@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import br.com.douglasqueiroz.mavelapp.R
 import br.com.douglasqueiroz.mavelapp.ui.helper.LoadDialog
@@ -12,13 +13,6 @@ import br.com.douglasqueiroz.mavelapp.ui.helper.LoadDialog
 abstract class ViewBase: AppCompatActivity(), ContractBase.View {
 
     private val mLoadDialog: LoadDialog by lazy { LoadDialog() }
-
-
-    override fun onStart() {
-        super.onStart()
-
-        getPresenter().loadData()
-    }
 
     override fun navigateTo(type: Class<out Activity>, flag: Int, bundle: Bundle?) {
 

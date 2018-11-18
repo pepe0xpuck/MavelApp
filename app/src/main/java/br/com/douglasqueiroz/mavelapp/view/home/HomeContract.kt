@@ -14,7 +14,7 @@ interface HomeContract {
 
     interface Presenter: ContractBase.Presenter {
 
-        fun refreshList()
+        fun loadData()
 
         fun searchCharacter(query: String?)
 

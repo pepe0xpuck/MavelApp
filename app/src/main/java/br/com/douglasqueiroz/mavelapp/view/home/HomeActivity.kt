@@ -21,7 +21,7 @@ import br.com.douglasqueiroz.mavelapp.ui.helper.EndlessRecyclerViewOnScrollListe
 
 class HomeActivity : ViewBase(), HomeContract.View, SearchView.OnQueryTextListener, CharacterAdapter.OnClick {
 
-    private val mPresenter: HomeContract.Presenter by lazy { HomePresenter(this, this, CharacterRequestImpl()) }
+    private val mPresenter: HomeContract.Presenter by lazy { HomePresenter(this, CharacterRequestImpl()) }
     private val mNoDataTextView: TextView by bindView(R.id.text_view_home_no_data_msg)
     private val mCharactersRecyclerView: RecyclerView by bindView(R.id.recycle_view_home_list)
     private val mCharacterAdapter: CharacterAdapter by lazy { CharacterAdapter(emptyList(), this) }
@@ -30,12 +30,13 @@ class HomeActivity : ViewBase(), HomeContract.View, SearchView.OnQueryTextListen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-
         val layoutManager = LinearLayoutManager(this)
         mCharactersRecyclerView.setHasFixedSize(true)
         mCharactersRecyclerView.layoutManager = layoutManager
         mCharactersRecyclerView.addOnScrollListener(setupScrollListener(layoutManager))
         mCharactersRecyclerView.adapter = mCharacterAdapter
+
+        mPresenter.loadData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

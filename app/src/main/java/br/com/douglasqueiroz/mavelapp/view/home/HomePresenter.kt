@@ -1,7 +1,5 @@
 package br.com.douglasqueiroz.mavelapp.view.home
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import br.com.douglasqueiroz.mavelapp.R
 import br.com.douglasqueiroz.mavelapp.model.Character
@@ -13,8 +11,7 @@ import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class HomePresenter(private val ctx: Context,
-                    private val mView: HomeContract.View,
+class HomePresenter(private val mView: HomeContract.View,
                     private val mCharacterRequest: CharacterRequest): PresenterBase(), HomeContract.Presenter {
 
     private var mCharacters = emptyList<Character>()
@@ -27,10 +24,6 @@ class HomePresenter(private val ctx: Context,
     override fun searchCharacter(query: String?) {
         mSearchQuery = query
         loadCharacters(query)
-    }
-
-    override fun refreshList() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onCharacterListItemClick(character: Character) {
@@ -61,15 +54,12 @@ class HomePresenter(private val ctx: Context,
                 override fun onCompleted() {
                     mView.hideProgress()
 
-                    mCharacters?.let {
+                    if (mCharacters.isEmpty()) {
 
-                        if (it.isEmpty()) {
+                        mView.showNoDataView()
+                    }else {
 
-                            mView.showNoDataView()
-                        }else {
-
-                            mView.showList(it)
-                        }
+                        mView.showList(mCharacters)
                     }
                 }
 
