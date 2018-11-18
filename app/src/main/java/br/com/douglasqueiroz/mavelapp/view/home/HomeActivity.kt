@@ -5,7 +5,6 @@ import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
-import android.text.TextUtils
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
@@ -17,21 +16,27 @@ import br.com.douglasqueiroz.mavelapp.ui.adapter.CharacterAdapter
 import br.com.douglasqueiroz.mavelapp.view.ContractBase
 import br.com.douglasqueiroz.mavelapp.view.ViewBase
 import android.view.MenuItem
+import br.com.douglasqueiroz.mavelapp.ui.helper.EndlessRecyclerViewOnScrollListener
 
 
 class HomeActivity : ViewBase(), HomeContract.View, SearchView.OnQueryTextListener, CharacterAdapter.OnClick {
 
-    private val mPresenter: HomeContract.Presenter by lazy { HomePresenter(this, this, CharacterRequestImpl()) }
+    private val mPresenter: HomeContract.Presenter by lazy { HomePresenter(this, CharacterRequestImpl()) }
     private val mNoDataTextView: TextView by bindView(R.id.text_view_home_no_data_msg)
     private val mCharactersRecyclerView: RecyclerView by bindView(R.id.recycle_view_home_list)
-    private var mSearchQuery = ""
+    private val mCharacterAdapter: CharacterAdapter by lazy { CharacterAdapter(emptyList(), this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        val layoutManager = LinearLayoutManager(this)
         mCharactersRecyclerView.setHasFixedSize(true)
-        mCharactersRecyclerView.layoutManager = LinearLayoutManager(this)
+        mCharactersRecyclerView.layoutManager = layoutManager
+        mCharactersRecyclerView.addOnScrollListener(setupScrollListener(layoutManager))
+        mCharactersRecyclerView.adapter = mCharacterAdapter
+
+        mPresenter.loadData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -47,7 +52,8 @@ class HomeActivity : ViewBase(), HomeContract.View, SearchView.OnQueryTextListen
                 }
 
                 override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                    mSearchQuery = ""
+                    mPresenter.searchCharacter(null)
+
                     return true
                 }
             })
@@ -61,8 +67,7 @@ class HomeActivity : ViewBase(), HomeContract.View, SearchView.OnQueryTextListen
 
     override fun showList(characters: List<Character>) {
         thereIsNoData(true)
-
-        mCharactersRecyclerView.adapter = CharacterAdapter(characters, this)
+        mCharacterAdapter.updateData(characters)
     }
 
     override fun showNoDataView() {
@@ -82,16 +87,23 @@ class HomeActivity : ViewBase(), HomeContract.View, SearchView.OnQueryTextListen
         }
     }
 
+    private fun setupScrollListener(layoutManager: LinearLayoutManager?): EndlessRecyclerViewOnScrollListener {
+
+        return object : EndlessRecyclerViewOnScrollListener(layoutManager) {
+
+            override fun onLoadMore(page: Int, totalItemsCount: Int) {
+                mPresenter.loadNextPage(totalItemsCount)
+            }
+        }
+    }
+
     override fun onQueryTextSubmit(query: String?): Boolean {
-        return false
+        mPresenter.searchCharacter(query)
+        return true
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        mSearchQuery = newText!!
-        if (!TextUtils.isEmpty(mSearchQuery)) {
-            mPresenter.searchCharacter(mSearchQuery)
-            return true
-        }
+
         return false
     }
 

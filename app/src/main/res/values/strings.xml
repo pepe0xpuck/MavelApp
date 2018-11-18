@@ -3,5 +3,6 @@
 
     <string name="action_search">Search</string>
     <string name="default_no_data_msg">No Data</string>
+    <string name="default_error_title">Error</string>
     <string name="default_error_msg">Something is wrong, check your connection and try again!</string>
 </resources>

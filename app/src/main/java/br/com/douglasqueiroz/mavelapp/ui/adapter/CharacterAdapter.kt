@@ -10,9 +10,9 @@ import br.com.douglasqueiroz.mavelapp.R
 import br.com.douglasqueiroz.mavelapp.model.Character
 import com.squareup.picasso.Picasso
 
-class CharacterAdapter (private val list: List<Character>, private val listener: OnClick) : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
+class CharacterAdapter (var mList: List<Character>, private val mListener: OnClick) : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
 
-    override fun getItemCount() : Int = list.size
+    override fun getItemCount() : Int = mList.size
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, type: Int) : ViewHolder {
 
@@ -22,8 +22,13 @@ class CharacterAdapter (private val list: List<Character>, private val listener:
         return ViewHolder(view)
     }
 
+    fun updateData(list: List<Character>) {
+        mList = list
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(mList[position])
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -41,7 +46,7 @@ class CharacterAdapter (private val list: List<Character>, private val listener:
                 .into(characterImageView)
 
             itemView.setOnClickListener {
-                listener.onClick(character)
+                mListener.onClick(character)
             }
         }
     }
