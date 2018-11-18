@@ -1,12 +1,17 @@
 package br.com.douglasqueiroz.mavelapp.view
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
+import br.com.douglasqueiroz.mavelapp.R
+import br.com.douglasqueiroz.mavelapp.ui.helper.LoadDialog
 
 abstract class ViewBase: AppCompatActivity(), ContractBase.View {
+
+    private val mLoadDialog: LoadDialog by lazy { LoadDialog() }
 
 
     override fun onStart() {
@@ -29,19 +34,30 @@ abstract class ViewBase: AppCompatActivity(), ContractBase.View {
     }
 
     override fun showErrorMessage(msgStringId: Int) {
-        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        AlertDialog.Builder(this)
+            .setCancelable(false)
+            .setTitle(R.string.default_error_title)
+            .setMessage(msgStringId)
+            .setPositiveButton(android.R.string.ok, null)
+            .create()
+            .show()
     }
 
     override fun showMessage(msgStringId: Int) {
-        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        AlertDialog.Builder(this)
+            .setCancelable(false)
+            .setMessage(msgStringId)
+            .setPositiveButton(android.R.string.ok, null)
+            .create()
+            .show()
     }
 
     override fun showProgress() {
-        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mLoadDialog.show(supportFragmentManager, LoadDialog.TAG)
     }
 
     override fun hideProgress() {
-        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mLoadDialog.dismissAllowingStateLoss()
     }
 
     protected abstract fun getPresenter(): ContractBase.Presenter
