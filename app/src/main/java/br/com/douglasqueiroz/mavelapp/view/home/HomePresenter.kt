@@ -17,13 +17,15 @@ class HomePresenter(private val ctx: Context,
                     private val mView: HomeContract.View,
                     private val mCharacterRequest: CharacterRequest): PresenterBase(), HomeContract.Presenter {
 
-    private var mCharacters: List<Character>? = null
+    private var mCharacters = emptyList<Character>()
+    private var mSearchQuery: String? = null
 
     override fun loadData() {
         loadCharacters()
     }
 
     override fun searchCharacter(query: String?) {
+        mSearchQuery = query
         loadCharacters(query)
     }
 
@@ -39,9 +41,13 @@ class HomePresenter(private val ctx: Context,
         mView.navigateTo(CharacterDetailsActivity::class.java, 1, bundle)
     }
 
-    private fun loadCharacters(query: String? = null) {
+    override fun loadNextPage(offset: Int) {
+        loadCharacters(mSearchQuery, offset)
+    }
 
-        mCharacterRequest.getCharacters(query)
+    private fun loadCharacters(query: String? = null, offset: Int = 0 , limit: Int = 20) {
+
+        mCharacterRequest.getCharacters(offset, limit, query)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Subscriber<Wrapper<List<Character>>>() {
@@ -76,7 +82,14 @@ class HomePresenter(private val ctx: Context,
 
                 override fun onNext(wrapper: Wrapper<List<Character>>) {
 
-                    mCharacters = wrapper.data?.results
+                    wrapper.data?.results?.let {
+
+                        if (offset > 0) {
+                            mCharacters += it
+                        }else {
+                            mCharacters = it
+                        }
+                    }
                 }
             })
     }

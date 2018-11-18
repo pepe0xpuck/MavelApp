@@ -19,5 +19,7 @@ interface HomeContract {
         fun searchCharacter(query: String?)
 
         fun onCharacterListItemClick(character: Character)
+
+        fun loadNextPage(offset: Int)
     }
 }

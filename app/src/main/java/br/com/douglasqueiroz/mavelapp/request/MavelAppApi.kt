@@ -13,6 +13,8 @@ interface MavelAppApi {
     fun getCharacters(@Query("apikey") publicKey: String,
                       @Query("hash") hash: String,
                       @Query("ts") timestamp: Long,
-                      @Nullable @Query("nameStartsWith") query: String?)
+                      @Nullable @Query("nameStartsWith") query: String?,
+                      @Nullable @Query("offset") offset: Int,
+                      @Nullable @Query("limit") limit: Int)
             :Observable<Wrapper<List<Character>>>
 }

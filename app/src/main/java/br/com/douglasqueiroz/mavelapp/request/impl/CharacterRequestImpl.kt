@@ -11,7 +11,7 @@ import rx.Observable
 
 class CharacterRequestImpl: CharacterRequest {
 
-    override fun getCharacters(query: String?): Observable<Wrapper<List<Character>>> {
+    override fun getCharacters(offset: Int, limit: Int, query: String?): Observable<Wrapper<List<Character>>> {
 
         val timeStamp = System.currentTimeMillis()
 
@@ -20,6 +20,8 @@ class CharacterRequestImpl: CharacterRequest {
             .getCharacters(BuildConfig.PUBLIC_KEY,
                             HashHelper.generateHash(timeStamp),
                             timeStamp,
-                            query)
+                            query,
+                            offset,
+                            limit)
     }
 }
