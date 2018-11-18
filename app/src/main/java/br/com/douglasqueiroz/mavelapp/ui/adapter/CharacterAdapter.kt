@@ -10,7 +10,7 @@ import br.com.douglasqueiroz.mavelapp.R
 import br.com.douglasqueiroz.mavelapp.model.Character
 import com.squareup.picasso.Picasso
 
-class CharacterAdapter (private val list: List<Character>) : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
+class CharacterAdapter (private val list: List<Character>, private val listener: OnClick) : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
 
     override fun getItemCount() : Int = list.size
 
@@ -37,9 +37,18 @@ class CharacterAdapter (private val list: List<Character>) : RecyclerView.Adapte
             characterNameTextView.text = character.name
 
             Picasso.get()
-                .load("${character.thumbnail.path}.${character.thumbnail.extension}")
+                .load(character.thumbnail.getFullPath())
                 .into(characterImageView)
+
+            itemView.setOnClickListener {
+                listener.onClick(character)
+            }
         }
+    }
+
+    interface OnClick {
+
+        fun onClick(character: Character)
     }
 
 }

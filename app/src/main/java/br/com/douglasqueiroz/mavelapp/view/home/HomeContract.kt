@@ -18,6 +18,6 @@ interface HomeContract {
 
         fun searchCharacter(query: String?)
 
-        fun onCharacterListItemClick(index: Int)
+        fun onCharacterListItemClick(character: Character)
     }
 }

@@ -1,14 +1,21 @@
 package br.com.douglasqueiroz.mavelapp.view.home
 
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import br.com.douglasqueiroz.mavelapp.R
 import br.com.douglasqueiroz.mavelapp.model.Character
 import br.com.douglasqueiroz.mavelapp.model.Wrapper
 import br.com.douglasqueiroz.mavelapp.request.CharacterRequest
+import br.com.douglasqueiroz.mavelapp.view.PresenterBase
+import br.com.douglasqueiroz.mavelapp.view.characterDetails.CharacterDetailsActivity
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class HomePresenter(private val mView: HomeContract.View, private val mCharacterRequest: CharacterRequest): HomeContract.Presenter {
+class HomePresenter(private val ctx: Context,
+                    private val mView: HomeContract.View,
+                    private val mCharacterRequest: CharacterRequest): PresenterBase(), HomeContract.Presenter {
 
     private var mCharacters: List<Character>? = null
 
@@ -24,8 +31,12 @@ class HomePresenter(private val mView: HomeContract.View, private val mCharacter
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onCharacterListItemClick(index: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onCharacterListItemClick(character: Character) {
+
+        val bundle = Bundle()
+        bundle.putParcelable(CharacterDetailsActivity.CHARACTER_BUNDLE_KEY, character)
+
+        mView.navigateTo(CharacterDetailsActivity::class.java, 1, bundle)
     }
 
     private fun loadCharacters(query: String? = null) {
