@@ -35,12 +35,15 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    // Android Suport
+    // Android Support
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportVersion}"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation "com.android.support:design:${rootProject.ext.supportVersion}"
     implementation "com.android.support:customtabs:${rootProject.ext.supportVersion}"
     implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportVersion}"
+    implementation "com.android.support:customtabs:${rootProject.ext.supportVersion}"
+    implementation "com.android.support:animated-vector-drawable:${rootProject.ext.supportVersion}"
+    implementation "com.android.support:exifinterface:${rootProject.ext.supportVersion}"
 
     // Rx
     implementation "io.reactivex:rxjava:${rootProject.ext.rxJavaVersion}"
