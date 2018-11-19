@@ -7,6 +7,4 @@
     <dimen name="item_character_list_image_margin">20dp</dimen>
 
     <dimen name="item_character_list_name_margin">10dp</dimen>
-
-    <dimen name="character_details_character_name_text_size">18</dimen>
 </resources>
