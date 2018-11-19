@@ -48,7 +48,7 @@ class HomePresenter(private val mView: HomeContract.View,
                 override fun onStart() {
                     super.onStart()
 
-                    mView.showProgress()
+                        mView.showProgress()
                 }
 
                 override fun onCompleted() {

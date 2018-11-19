@@ -27,11 +27,5 @@ class ExampleInstrumentedTest {
     @Test
     fun getCharacter() {
 
-        val observable = requester.getCharacters()
-        val testSubscriber = TestSubscriber<List<Character>>()
-        observable.subscribe(testSubscriber)
-
-        testSubscriber.assertNoErrors()
-        testSubscriber.assertCompleted()
     }
 }

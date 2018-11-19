@@ -28,6 +28,9 @@ android {
     lintOptions {
         abortOnError false
     }
+    testOptions {
+        execution 'ANDROID_TEST_ORCHESTRATOR'
+    }
 }
 
 dependencies {
@@ -57,8 +60,11 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:2.23.0"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    testImplementation "org.mockito:mockito-core:2.23.0"
+    androidTestImplementation 'org.mockito:mockito-android:2.23.0'
+
 }
