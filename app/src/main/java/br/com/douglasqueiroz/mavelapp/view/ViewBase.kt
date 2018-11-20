@@ -14,7 +14,7 @@ abstract class ViewBase: AppCompatActivity(), ContractBase.View {
 
     private val mLoadDialog: LoadDialog by lazy { LoadDialog() }
 
-    override fun navigateTo(type: Class<out Activity>, flag: Int, bundle: Bundle?) {
+    override fun navigateTo(type: Class<out Activity>, flag: Int, bundle: Bundle) {
 
         val intent = Intent(this, type)
             .setFlags(flag)

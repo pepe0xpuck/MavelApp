@@ -16,9 +16,9 @@ import java.util.concurrent.TimeUnit
 
 class MavelAppRequestConfig {
     companion object Factory {
-        private val TIMEOUT = 90
-        private val SINGLE_REQUEST = 1
-        private val GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        private const val TIMEOUT = 90
+        private const val SINGLE_REQUEST = 1
+        private const val GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 
 
         fun createRetrofit(): Retrofit {
