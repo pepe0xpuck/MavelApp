@@ -10,7 +10,6 @@ import br.com.douglasqueiroz.mavelapp.helper.bindView
 import br.com.douglasqueiroz.mavelapp.model.Character
 import br.com.douglasqueiroz.mavelapp.view.ContractBase
 import br.com.douglasqueiroz.mavelapp.view.ViewBase
-import com.squareup.picasso.Picasso
 
 class CharacterDetailsActivity : ViewBase(), CharacterDetailsContract.View {
 
