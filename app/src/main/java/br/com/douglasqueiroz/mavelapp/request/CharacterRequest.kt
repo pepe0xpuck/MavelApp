@@ -6,5 +6,5 @@ import rx.Observable
 
 interface CharacterRequest {
 
-    fun getCharacters(offset: Int = 0, limit: Int = 0, query: String? = null): Observable<Wrapper<List<Character>>>
+    fun getCharacters(offset: Int, limit: Int, query: String? = null): Observable<Wrapper<List<Character>>>
 }

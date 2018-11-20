@@ -1,12 +1,18 @@
 package br.com.douglasqueiroz.mavelapp
 
+import android.support.test.filters.LargeTest
+import android.support.test.runner.AndroidJUnit4
 import br.com.douglasqueiroz.mavelapp.model.Character
+import br.com.douglasqueiroz.mavelapp.model.DataResult
+import br.com.douglasqueiroz.mavelapp.model.Thumbnail
 import br.com.douglasqueiroz.mavelapp.model.Wrapper
 import br.com.douglasqueiroz.mavelapp.request.CharacterRequest
 import br.com.douglasqueiroz.mavelapp.view.home.HomeContract
 import br.com.douglasqueiroz.mavelapp.view.home.HomePresenter
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.*
@@ -14,16 +20,13 @@ import org.mockito.MockitoAnnotations
 import rx.Observable
 import java.lang.RuntimeException
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class HomPresenterUnitTest {
+
+@RunWith(AndroidJUnit4::class)
+@LargeTest
+class HomePresenterTest {
 
     @Mock
     lateinit var mView: HomeContract.View
-
 
     @Mock
     lateinit var mCharacterRequest: CharacterRequest
@@ -33,12 +36,26 @@ class HomPresenterUnitTest {
         MockitoAnnotations.initMocks(this)
     }
 
+    @After
+    fun tearDown() {
+        Mockito.reset(mView)
+        Mockito.reset(mCharacterRequest)
+    }
+
     @Test
     fun loadData_withSuccess() {
 
-        val characters = Wrapper<List<Character>>()
+        val character = Character(1, null, null, Thumbnail(null, null))
 
-        doReturn(Observable.just(characters)).`when`(mCharacterRequest).getCharacters(0, 20, null)
+        val characters = listOf(character)
+
+        val data = DataResult<List<Character>>()
+        data.results = characters
+
+        val wrapper = Wrapper<List<Character>>()
+        wrapper.data = data
+
+        doReturn(Observable.just(wrapper)).`when`(mCharacterRequest).getCharacters(0, 20, null)
 
         val homePresenter = HomePresenter(mView, mCharacterRequest)
 
@@ -46,11 +63,11 @@ class HomPresenterUnitTest {
 
         verify(mView, times(1)).showProgress()
 
-//        verify(mView, times(1)).showList(characters)
+        verify(mView, times(1)).hideProgress()
+
+        verify(mView, times(1)).showList(characters)
 
         verify(mView, never()).showNoDataView()
-
-        verify(mView, times(1)).hideProgress()
 
         verify(mView, never()).showErrorMessage(Mockito.anyInt())
 
@@ -68,13 +85,13 @@ class HomPresenterUnitTest {
 
         verify(mView, times(1)).showProgress()
 
+        verify(mView, times(1)).hideProgress()
+
+        verify(mView, times(1)).showErrorMessage(R.string.default_error_msg)
+
         verify(mView, never()).showList(Mockito.anyList())
 
         verify(mView, never()).showNoDataView()
-
-        verify(mView, times(1)).hideProgress()
-
-        verify(mView, times(1)).showErrorMessage(Mockito.anyInt())
 
         verify(mView, never()).showMessage(Mockito.anyInt())
     }
@@ -82,7 +99,15 @@ class HomPresenterUnitTest {
     @Test
     fun loadData_withNoData() {
 
-        doReturn(Observable.just(ArrayList<Character>())).`when`(mCharacterRequest).getCharacters(0, 20, null)
+        val characters = emptyList<Character>()
+
+        val data = DataResult<List<Character>>()
+        data.results = characters
+
+        val wrapper = Wrapper<List<Character>>()
+        wrapper.data = data
+
+        doReturn(Observable.just(wrapper)).`when`(mCharacterRequest).getCharacters(0, 20, null)
 
         val homePresenter = HomePresenter(mView, mCharacterRequest)
 
@@ -90,11 +115,11 @@ class HomPresenterUnitTest {
 
         verify(mView, times(1)).showProgress()
 
-        verify(mView, never()).showList(Mockito.anyList())
+        verify(mView, times(1)).hideProgress()
 
         verify(mView, times(1)).showNoDataView()
 
-        verify(mView, times(1)).hideProgress()
+        verify(mView, never()).showList(Mockito.anyList())
 
         verify(mView, never()).showErrorMessage(Mockito.anyInt())
 
