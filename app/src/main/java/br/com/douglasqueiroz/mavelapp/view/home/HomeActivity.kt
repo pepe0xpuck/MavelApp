@@ -1,7 +1,6 @@
 package br.com.douglasqueiroz.mavelapp.view.home
 
 import android.os.Bundle
-import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
@@ -42,21 +41,21 @@ class HomeActivity : ViewBase(), HomeContract.View, SearchView.OnQueryTextListen
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.list_menu, menu)
 
-        val searchView = MenuItemCompat.getActionView(menu?.findItem(R.id.action_search)) as android.support.v7.widget.SearchView
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
         searchView.queryHint = getString(R.string.action_search)
         searchView.setOnQueryTextListener(this)
-        MenuItemCompat.setOnActionExpandListener(menu?.findItem(R.id.action_search),
-            object : MenuItemCompat.OnActionExpandListener {
-                override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                    return true
-                }
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                return true
+            }
 
-                override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                    mPresenter.searchCharacter(null)
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                mPresenter.searchCharacter(null)
 
-                    return true
-                }
-            })
+                return true
+            }
+        })
 
         return super.onCreateOptionsMenu(menu)
     }

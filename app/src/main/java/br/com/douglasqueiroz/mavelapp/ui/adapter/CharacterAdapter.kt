@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import br.com.douglasqueiroz.mavelapp.R
+import br.com.douglasqueiroz.mavelapp.helper.ImageHelper
 import br.com.douglasqueiroz.mavelapp.model.Character
 import com.squareup.picasso.Picasso
 
@@ -41,9 +42,7 @@ class CharacterAdapter (var mList: List<Character>, private val mListener: OnCli
 
             characterNameTextView.text = character.name
 
-            Picasso.get()
-                .load(character.thumbnail.getFullPath())
-                .into(characterImageView)
+            ImageHelper.loadImage(character.thumbnail.getFullPath(), characterImageView)
 
             itemView.setOnClickListener {
                 mListener.onClick(character)
