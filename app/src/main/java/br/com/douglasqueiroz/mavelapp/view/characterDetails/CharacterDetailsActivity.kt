@@ -5,11 +5,11 @@ import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import br.com.douglasqueiroz.mavelapp.R
+import br.com.douglasqueiroz.mavelapp.helper.ImageHelper
 import br.com.douglasqueiroz.mavelapp.helper.bindView
 import br.com.douglasqueiroz.mavelapp.model.Character
 import br.com.douglasqueiroz.mavelapp.view.ContractBase
 import br.com.douglasqueiroz.mavelapp.view.ViewBase
-import com.squareup.picasso.Picasso
 
 class CharacterDetailsActivity : ViewBase(), CharacterDetailsContract.View {
 
@@ -42,10 +42,7 @@ class CharacterDetailsActivity : ViewBase(), CharacterDetailsContract.View {
 
         mCharacterNameTextView.text = character.name
         mCharacterDescriptionTextView.text = character.description
-        Picasso
-            .get()
-            .load(character.thumbnail.getFullPath())
-            .into(mCharacterImageView)
+        ImageHelper.loadImage(character.thumbnail.getFullPath(), mCharacterImageView)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

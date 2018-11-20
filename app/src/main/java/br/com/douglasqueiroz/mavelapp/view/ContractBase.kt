@@ -8,7 +8,7 @@ interface ContractBase {
 
     interface View {
 
-        fun navigateTo(type: Class<out Activity>, flag: Int, bundle: Bundle?)
+        fun navigateTo(type: Class<out Activity>, flag: Int, bundle: Bundle)
 
         fun getPutExtra(key: String): Class<out Parcelable>?
 
