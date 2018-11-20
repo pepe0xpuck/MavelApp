@@ -43,7 +43,7 @@ class HomePresenterTest {
     }
 
     @Test
-    fun loadData_withSuccess() {
+    fun testLoadData_withSuccess() {
 
         val character = Character(1, null, null, Thumbnail(null, null))
 
@@ -75,7 +75,7 @@ class HomePresenterTest {
     }
 
     @Test
-    fun loadData_withError() {
+    fun testLoadData_withError() {
 
         doReturn(Observable.just(RuntimeException())).`when`(mCharacterRequest).getCharacters(0, 20, null)
 
@@ -97,7 +97,7 @@ class HomePresenterTest {
     }
 
     @Test
-    fun loadData_withNoData() {
+    fun testLoadData_withNoData() {
 
         val characters = emptyList<Character>()
 
@@ -120,6 +120,74 @@ class HomePresenterTest {
         verify(mView, times(1)).showNoDataView()
 
         verify(mView, never()).showList(Mockito.anyList())
+
+        verify(mView, never()).showErrorMessage(Mockito.anyInt())
+
+        verify(mView, never()).showMessage(Mockito.anyInt())
+    }
+
+    @Test
+    fun testSearchCharacter() {
+
+        val searchQuery = "search query"
+
+        val character = Character(1, null, null, Thumbnail(null, null))
+
+        val characters = listOf(character)
+
+        val data = DataResult<List<Character>>()
+        data.results = characters
+
+        val wrapper = Wrapper<List<Character>>()
+        wrapper.data = data
+
+        doReturn(Observable.just(wrapper)).`when`(mCharacterRequest).getCharacters(0, 20, searchQuery)
+
+        val homePresenter = HomePresenter(mView, mCharacterRequest)
+
+        homePresenter.searchCharacter(searchQuery)
+
+        verify(mView, times(1)).showProgress()
+
+        verify(mView, times(1)).hideProgress()
+
+        verify(mView, times(1)).showList(characters)
+
+        verify(mView, never()).showNoDataView()
+
+        verify(mView, never()).showErrorMessage(Mockito.anyInt())
+
+        verify(mView, never()).showMessage(Mockito.anyInt())
+    }
+
+    @Test
+    fun testLoadNextPage() {
+
+        val offset = 20
+
+        val character = Character(1, null, null, Thumbnail(null, null))
+
+        val characters = listOf(character)
+
+        val data = DataResult<List<Character>>()
+        data.results = characters
+
+        val wrapper = Wrapper<List<Character>>()
+        wrapper.data = data
+
+        doReturn(Observable.just(wrapper)).`when`(mCharacterRequest).getCharacters(offset, 20, null)
+
+        val homePresenter = HomePresenter(mView, mCharacterRequest)
+
+        homePresenter.loadNextPage(offset)
+
+        verify(mView, times(1)).showProgress()
+
+        verify(mView, times(1)).hideProgress()
+
+        verify(mView, times(1)).showList(characters)
+
+        verify(mView, never()).showNoDataView()
 
         verify(mView, never()).showErrorMessage(Mockito.anyInt())
 

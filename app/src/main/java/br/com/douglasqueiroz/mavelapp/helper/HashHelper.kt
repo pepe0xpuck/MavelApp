@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException
 class HashHelper {
 
     companion object {
+
         fun generateHash(timeStamp: Long): String {
 
             try {
@@ -32,7 +33,6 @@ class HashHelper {
                 Log.e("DataManager", "Error hashing required parameters: " + e.message)
                 return ""
             }
-
         }
     }
 }
